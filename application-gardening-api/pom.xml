@@ -51,6 +51,11 @@
       <artifactId>xwiki-commons-job</artifactId>
       <version>${commons.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-model</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
 
     <!-- Test Dependencies -->
     <dependency>

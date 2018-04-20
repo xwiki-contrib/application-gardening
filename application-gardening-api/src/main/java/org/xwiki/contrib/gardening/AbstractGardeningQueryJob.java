@@ -35,13 +35,7 @@ public abstract class AbstractGardeningQueryJob extends
         AbstractJob<GardeningQueryJobRequest, GardeningQueryJobStatus>
 {
     /**
-     * The type of the job ; also used as a job identifier.
+     * The suffix of the job that should be used by subclasses when defining their job type.
      */
-    public static final String JOB_TYPE = "gardeningQueryJob";
-
-    @Override
-    public String getType()
-    {
-        return JOB_TYPE;
-    }
+    public static final String JOB_TYPE_SUFFIX = "GardeningQueryJob";
 }

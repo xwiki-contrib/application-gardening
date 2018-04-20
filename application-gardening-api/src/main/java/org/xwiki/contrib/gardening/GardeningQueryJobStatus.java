@@ -19,9 +19,12 @@
  */
 package org.xwiki.contrib.gardening;
 
+import java.util.Set;
+
 import org.xwiki.job.DefaultJobStatus;
 import org.xwiki.job.event.status.JobStatus;
 import org.xwiki.logging.LoggerManager;
+import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.observation.ObservationManager;
 import org.xwiki.stability.Unstable;
 
@@ -34,6 +37,8 @@ import org.xwiki.stability.Unstable;
 @Unstable
 public class GardeningQueryJobStatus extends DefaultJobStatus<GardeningQueryJobRequest>
 {
+    private Set<DocumentReference> foundDocuments;
+
     /**
      * Builds a new {@link GardeningQueryJobStatus}.
      *
@@ -51,5 +56,21 @@ public class GardeningQueryJobStatus extends DefaultJobStatus<GardeningQueryJobR
             LoggerManager loggerManager)
     {
         super(jobType, request, parentJobStatus, observationManager, loggerManager);
+    }
+
+    /**
+     * @return a set of documents found during the job execution
+     */
+    public Set<DocumentReference> getFoundDocuments()
+    {
+        return this.foundDocuments;
+    }
+
+    /**
+     * @param foundDocuments the documents found during the job execution
+     */
+    public void setFoundDocuments(Set<DocumentReference> foundDocuments)
+    {
+        this.foundDocuments = foundDocuments;
     }
 }

@@ -19,6 +19,8 @@
  */
 package org.xwiki.contrib.gardening;
 
+import java.util.Set;
+
 import org.xwiki.job.AbstractRequest;
 import org.xwiki.stability.Unstable;
 
@@ -31,4 +33,50 @@ import org.xwiki.stability.Unstable;
 @Unstable
 public class GardeningJobRequest extends AbstractRequest
 {
+    /**
+     * The query job types to call in order to fetch a list of {@link org.xwiki.model.reference.DocumentReference}
+     * that will then be handled by {@link AbstractGardeningActionJob}s.
+     */
+    private Set<String> queryJobTypes;
+
+    /**
+     * The action job type to use when applying an action to a document.
+     */
+    private String actionJobType;
+
+    /**
+     * @return a list of query jobs to use
+     * @see #queryJobTypes
+     */
+    public Set<String> getQueryJobTypes()
+    {
+        return queryJobTypes;
+    }
+
+    /**
+     * @param queryJobTypes the query jobs to use
+     * @see #queryJobTypes
+     */
+    public void setQueryJobTypes(Set<String> queryJobTypes)
+    {
+        this.queryJobTypes = queryJobTypes;
+    }
+
+    /**
+     * @return the action job to use
+     * @see #actionJobType
+     */
+    public String getActionJobType()
+    {
+        return actionJobType;
+    }
+
+    /**
+     * @param actionJobType the action job to use
+     * @see #actionJobType
+     */
+    public void setActionJobType(String actionJobType)
+    {
+        this.actionJobType = actionJobType;
+    }
 }

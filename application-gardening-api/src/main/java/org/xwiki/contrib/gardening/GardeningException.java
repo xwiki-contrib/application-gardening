@@ -19,23 +19,32 @@
  */
 package org.xwiki.contrib.gardening;
 
-import org.xwiki.job.AbstractJob;
-import org.xwiki.job.DefaultJobStatus;
-import org.xwiki.stability.Unstable;
-
 /**
- * The {@link AbstractGardeningActionJob} takes one of the documents provided by some {@link AbstractGardeningQueryJob} and applies a
- * given action to this document for gardening purposes.
+ * Exceptions related to the Gardening application.
  *
  * @version $Id$
  * @since 1.0
  */
-@Unstable
-public abstract class AbstractGardeningActionJob extends
-        AbstractJob<GardeningActionJobRequest, DefaultJobStatus<GardeningActionJobRequest>>
+public class GardeningException extends Exception
 {
     /**
-     * The suffix of the job that should be used by subclasses when defining their job type.
+     * Construct a GardeningException.
+     *
+     * @param message the detail message
      */
-    public static final String JOB_TYPE_SUFFIX = "GardeningActionJob";
+    public GardeningException(String message)
+    {
+        super(message);
+    }
+
+    /**
+     * Construct a GardeningException.
+     *
+     * @param message the detail message
+     * @param cause the cause
+     */
+    public GardeningException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 }

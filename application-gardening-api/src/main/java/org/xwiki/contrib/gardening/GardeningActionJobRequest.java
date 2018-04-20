@@ -20,6 +20,7 @@
 package org.xwiki.contrib.gardening;
 
 import org.xwiki.job.AbstractRequest;
+import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -31,4 +32,34 @@ import org.xwiki.stability.Unstable;
 @Unstable
 public class GardeningActionJobRequest extends AbstractRequest
 {
+    private DocumentReference actionDocument;
+
+    /**
+     * Constructs a new {@link GardeningActionJobRequest} while providing the document to act on.
+     *
+     * @param actionDocument the document to act on
+     */
+    public GardeningActionJobRequest(DocumentReference actionDocument)
+    {
+        super();
+        this.actionDocument = actionDocument;
+    }
+
+    /**
+     * Define the document that should be acted on by the job.
+     *
+     * @param actionDocument the document itself
+     */
+    public void setActionDocument(DocumentReference actionDocument)
+    {
+        this.actionDocument = actionDocument;
+    }
+
+    /**
+     * @return the document that should be acted on
+     */
+    public DocumentReference getActionDocument()
+    {
+        return actionDocument;
+    }
 }
