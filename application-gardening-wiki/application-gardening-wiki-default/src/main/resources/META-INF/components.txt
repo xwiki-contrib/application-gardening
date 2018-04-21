@@ -1,0 +1,4 @@
+org.xwiki.contrib.gardening.wiki.internal.DefaultModelBridge
+org.xwiki.contrib.gardening.wiki.internal.GardeningActionScriptClassDocumentInitializer
+org.xwiki.contrib.gardening.wiki.internal.GardeningActionScriptComponentBuilder
+org.xwiki.contrib.gardening.wiki.internal.GardeningQueryScriptClassDocumentInitializer

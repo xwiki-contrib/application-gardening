@@ -24,37 +24,16 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.contrib</groupId>
-    <artifactId>parent-platform</artifactId>
-    <version>9.11-4</version>
+    <artifactId>application-gardening</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>application-gardening</artifactId>
+  <artifactId>application-gardening-wiki</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>Gardening Application - Parent POM</name>
+  <name>Gardening Application - Wiki</name>
   <packaging>pom</packaging>
-  <description> Automate some gardening actions in order to keep a wiki clean</description>
-  <scm>
-    <connection>scm:git:git://github.com/xwiki-contrib/application-gardening.git</connection>
-    <developerConnection>scm:git:git@github.com:xwiki-contrib/application-gardening.git</developerConnection>
-    <url>https://github.com/xwiki-contrib/application-gardening/tree/master</url>
-    <tag>HEAD</tag>
-  </scm>
-  <developers>
-    <developer>
-      <id>aubincleme</id>
-      <name>Clément Aubin</name>
-    </developer>
-  </developers>
-  <properties>
-    <xwiki.extension.category>application</xwiki.extension.category>
-    <xwiki.release.jira.skip>false</xwiki.release.jira.skip>
-    <xwiki.issueManagement.system>jira</xwiki.issueManagement.system>
-    <xwiki.issueManagement.url>https://jira.xwiki.org/browse/GRDNG</xwiki.issueManagement.url>
-  </properties>
+  <description>Wiki-oriented implementation of the Gardening Application</description>
   <modules>
-    <module>application-gardening-api</module>
-    <module>application-gardening-ui</module>
-    <module>application-gardening-scripts</module>
-    <module>application-gardening-wiki</module>
+    <module>application-gardening-wiki-api</module>
+    <module>application-gardening-wiki-default</module>
   </modules>
 </project>
-
