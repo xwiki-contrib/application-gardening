@@ -53,6 +53,7 @@
   <modules>
     <module>application-gardening-api</module>
     <module>application-gardening-ui</module>
+    <module>application-gardening-script</module>
     <module>application-gardening-scripts</module>
     <module>application-gardening-wiki</module>
   </modules>

@@ -40,13 +40,13 @@ import org.xwiki.contrib.gardening.scripts.GardeningScriptException;
  * @since 1.0
  */
 @Component
-@Named(WikiScriptGardeningActionJob.JOB_TYPE_PREFIX + AbstractGardeningActionJob.JOB_TYPE_SUFFIX)
+@Named(WikiScriptGardeningActionJob.JOB_TYPE)
 public class WikiScriptGardeningActionJob extends AbstractGardeningActionJob
 {
     /**
-     * The prefix of the job type.
+     * The job type.
      */
-    public static final String JOB_TYPE_PREFIX = "wikiScript";
+    public static final String JOB_TYPE = "wikiScript" + AbstractGardeningActionJob.JOB_TYPE_SUFFIX;
 
     @Inject
     private ComponentManager componentManager;
@@ -78,6 +78,6 @@ public class WikiScriptGardeningActionJob extends AbstractGardeningActionJob
     @Override
     public String getType()
     {
-        return WikiScriptGardeningActionJob.JOB_TYPE_PREFIX + AbstractGardeningActionJob.JOB_TYPE_SUFFIX;
+        return WikiScriptGardeningActionJob.JOB_TYPE;
     }
 }

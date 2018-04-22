@@ -20,21 +20,36 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>application-gardening</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>application-gardening-wiki</artifactId>
+  <artifactId>application-gardening-script</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>Gardening Application - Wiki</name>
-  <packaging>pom</packaging>
-  <description>Wiki-oriented implementation of the Gardening Application</description>
-  <modules>
-    <module>application-gardening-wiki-api</module>
-    <module>application-gardening-wiki-default</module>
-    <module>application-gardening-wiki-script</module>
-  </modules>
+  <name>Gardening Application - Script Service</name>
+  <packaging>jar</packaging>
+  <description>Generic script service for the Gardening Application</description>
+  <properties>
+    <xwiki.jacoco.instructionRatio>0.00</xwiki.jacoco.instructionRatio>
+  </properties>
+  <dependencies>
+    <!-- Project dependencies -->
+    <dependency>
+      <groupId>org.xwiki.contrib</groupId>
+      <artifactId>application-gardening-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-tool-test-component</artifactId>
+      <version>${commons.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

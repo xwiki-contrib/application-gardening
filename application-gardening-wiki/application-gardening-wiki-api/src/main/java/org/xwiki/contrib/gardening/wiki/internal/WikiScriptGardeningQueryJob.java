@@ -43,13 +43,13 @@ import org.xwiki.model.reference.DocumentReference;
  * @since 1.0
  */
 @Component
-@Named(WikiScriptGardeningQueryJob.JOB_TYPE_PREFIX + AbstractGardeningQueryJob.JOB_TYPE_SUFFIX)
+@Named(WikiScriptGardeningQueryJob.JOB_TYPE)
 public class WikiScriptGardeningQueryJob extends AbstractGardeningQueryJob
 {
     /**
-     * The prefix of the job type.
+     * The job type.
      */
-    public static final String JOB_TYPE_PREFIX = "wikiScript";
+    public static final String JOB_TYPE = "wikiScript" + AbstractGardeningQueryJob.JOB_TYPE_SUFFIX;
 
     @Inject
     private ModelBridge modelBridge;
@@ -95,6 +95,6 @@ public class WikiScriptGardeningQueryJob extends AbstractGardeningQueryJob
     @Override
     public String getType()
     {
-        return WikiScriptGardeningQueryJob.JOB_TYPE_PREFIX + AbstractGardeningQueryJob.JOB_TYPE_SUFFIX;
+        return WikiScriptGardeningQueryJob.JOB_TYPE;
     }
 }
