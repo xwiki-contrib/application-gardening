@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.xwiki.bridge.DocumentAccessBridge;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.gardening.AbstractGardeningJob;
 import org.xwiki.contrib.gardening.GardeningException;
@@ -37,8 +38,12 @@ import org.xwiki.job.Job;
 import org.xwiki.job.JobException;
 import org.xwiki.job.JobExecutor;
 import org.xwiki.job.event.status.JobStatus;
+import org.xwiki.model.ModelContext;
+import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.script.service.ScriptService;
 import org.xwiki.script.service.ScriptServiceManager;
+import org.xwiki.security.authorization.AuthorizationManager;
+import org.xwiki.security.authorization.Right;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -58,11 +63,22 @@ public class GardeningScriptService implements ScriptService
      */
     public static final String ROLE_HINT = "gardening";
 
+    private JobStatus lastGardeningJobStatus;
+
     @Inject
     private ScriptServiceManager scriptServiceManager;
 
     @Inject
     private JobExecutor jobExecutor;
+
+    @Inject
+    private DocumentAccessBridge documentAccessBridge;
+
+    @Inject
+    private AuthorizationManager authorizationManager;
+
+    @Inject
+    private ModelContext modelContext;
 
     /**
      * Get a sub script service related to wiki. (Note that we're voluntarily using an API name of "get" to make it
@@ -89,6 +105,12 @@ public class GardeningScriptService implements ScriptService
      */
     public JobStatus start(Collection<String> queryJobTypes, String actionJobType) throws GardeningException
     {
+        DocumentReference currentUser = documentAccessBridge.getCurrentUserReference();
+
+        if (!authorizationManager.hasAccess(Right.ADMIN, currentUser, modelContext.getCurrentEntityReference())) {
+            throw new GardeningException("Starting a gardening job requires administrator privileges.");
+        }
+
         // Convert the queryJobTypes to a set that can be transferred to the job request
         Set<String> queryJobTypesSet = new HashSet<>(queryJobTypes);
 
@@ -100,10 +122,19 @@ public class GardeningScriptService implements ScriptService
         try {
             Job job = jobExecutor.execute(AbstractGardeningJob.JOB_TYPE, jobRequest);
 
-            return job.getStatus();
+            lastGardeningJobStatus = job.getStatus();
+            return lastGardeningJobStatus;
         } catch (JobException e) {
             throw new GardeningException(
                     String.format("Failed to start the gardening job [%s]", jobRequest.getId()), e);
         }
+    }
+
+    /**
+     * @return the last gardening job status, or null if none has already been triggered
+     */
+    public JobStatus getLastGardeningJobStatus()
+    {
+        return lastGardeningJobStatus;
     }
 }
