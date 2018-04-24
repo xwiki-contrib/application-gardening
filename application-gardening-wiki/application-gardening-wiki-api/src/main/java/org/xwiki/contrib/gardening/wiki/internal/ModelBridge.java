@@ -22,6 +22,7 @@ package org.xwiki.contrib.gardening.wiki.internal;
 import java.util.Set;
 
 import org.xwiki.component.annotation.Role;
+import org.xwiki.contrib.gardening.GardeningException;
 
 /**
  * Internal bridge allowing to access the wiki model without directly depending on the old core.
@@ -34,11 +35,13 @@ public interface ModelBridge
 {
     /**
      * @return a list of active {@link org.xwiki.contrib.gardening.scripts.GardeningQueryScript}.
+     * @throws GardeningException if an error happens
      */
-    Set<String> getActiveQueryScripts();
+    Set<String> getActiveQueryScripts() throws GardeningException;
 
     /**
      * @return the active {@link org.xwiki.contrib.gardening.scripts.GardeningActionScript}.
+     * @throws GardeningException if an error happens
      */
-    String getActiveActionScript();
+    String getActiveActionScript() throws GardeningException;
 }

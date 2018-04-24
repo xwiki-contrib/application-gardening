@@ -3,3 +3,4 @@ org.xwiki.contrib.gardening.wiki.internal.GardeningActionScriptClassDocumentInit
 org.xwiki.contrib.gardening.wiki.internal.GardeningActionScriptComponentBuilder
 org.xwiki.contrib.gardening.wiki.internal.GardeningQueryScriptClassDocumentInitializer
 org.xwiki.contrib.gardening.wiki.internal.GardeningQueryScriptComponentBuilder
+org.xwiki.contrib.gardening.wiki.internal.GardeningScriptConfigurationClassDocumentInitializer
