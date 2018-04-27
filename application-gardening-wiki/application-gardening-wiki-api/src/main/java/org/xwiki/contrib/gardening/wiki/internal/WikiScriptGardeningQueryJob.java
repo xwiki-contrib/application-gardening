@@ -27,7 +27,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -56,9 +55,6 @@ public class WikiScriptGardeningQueryJob extends AbstractGardeningQueryJob
 
     @Inject
     private ComponentManager componentManager;
-
-    @Inject
-    private Logger logger;
 
     @Override
     protected void runInternal() throws Exception

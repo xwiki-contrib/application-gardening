@@ -42,17 +42,18 @@ import org.xwiki.stability.Unstable;
  */
 @Component
 @Singleton
-@Named(WikiGardeningScriptService.ROLE_HINT)
+@Named(GardeningScriptService.ROLE_HINT + "." + WikiGardeningScriptService.ROLE_HINT)
 @Unstable
 public class WikiGardeningScriptService implements ScriptService
 {
     /**
      * The component hint.
      */
-    public static final String ROLE_HINT = GardeningScriptService.ROLE_HINT + ".wiki";
+    public static final String ROLE_HINT = "wiki";
 
     @Inject
-    private GardeningScriptService gardeningScriptService;
+    @Named(GardeningScriptService.ROLE_HINT)
+    private ScriptService gardeningScriptService;
 
     /**
      * Start a new wiki gardening job.
@@ -62,7 +63,7 @@ public class WikiGardeningScriptService implements ScriptService
      */
     public JobStatus start() throws GardeningException
     {
-        return gardeningScriptService.start(
+        return ((GardeningScriptService) gardeningScriptService).start(
                 Collections.singleton(WikiScriptGardeningQueryJob.JOB_TYPE),
                 WikiScriptGardeningActionJob.JOB_TYPE);
     }

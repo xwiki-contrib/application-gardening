@@ -23,7 +23,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -53,9 +52,6 @@ public class WikiScriptGardeningActionJob extends AbstractGardeningActionJob
 
     @Inject
     private ModelBridge modelBridge;
-
-    @Inject
-    private Logger logger;
 
     @Override
     protected void runInternal() throws Exception

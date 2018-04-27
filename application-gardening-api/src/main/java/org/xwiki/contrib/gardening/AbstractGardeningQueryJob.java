@@ -20,6 +20,8 @@
 package org.xwiki.contrib.gardening;
 
 import org.xwiki.job.AbstractJob;
+import org.xwiki.job.Job;
+import org.xwiki.job.event.status.JobStatus;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -38,4 +40,13 @@ public abstract class AbstractGardeningQueryJob extends
      * The suffix of the job that should be used by subclasses when defining their job type.
      */
     public static final String JOB_TYPE_SUFFIX = "GardeningQueryJob";
+
+    @Override
+    protected GardeningQueryJobStatus createNewStatus(GardeningQueryJobRequest request)
+    {
+        Job currentJob = this.jobContext.getCurrentJob();
+        JobStatus currentJobStatus = currentJob != null ? currentJob.getStatus() : null;
+        return new GardeningQueryJobStatus(currentJob.getType(), request, currentJobStatus,
+                this.observationManager, this.loggerManager);
+    }
 }
