@@ -57,6 +57,8 @@ public class DefaultGardeningJob extends AbstractGardeningJob
         /* At some point, we should switch to pooled query execution as here we're using the full benefits
         of jobs */
         for (String queryJobType : request.getQueryJobTypes()) {
+            logger.info("Starting query job [{}]", queryJobType);
+
             GardeningQueryJobRequest queryJobRequest = new GardeningQueryJobRequest();
             queryJobRequest.setId(Arrays.asList(queryJobType, UUID.randomUUID().toString()));
 
@@ -66,8 +68,13 @@ public class DefaultGardeningJob extends AbstractGardeningJob
             foundDocuments.addAll(((GardeningQueryJobStatus) queryJob.getStatus()).getFoundDocuments());
         }
 
+        logger.info("{} documents found, triggering action job [{}] for each document",
+                foundDocuments.size(), request.getActionJobType());
+
         /* Same here */
         for (DocumentReference document : foundDocuments) {
+            logger.info("Starting action job [{}] for document [{}]", request.getActionJobType(), document);
+
             GardeningActionJobRequest actionJobRequest = new GardeningActionJobRequest(document);
             actionJobRequest.setId(Arrays.asList(request.getActionJobType(), UUID.randomUUID().toString()));
 

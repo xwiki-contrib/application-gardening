@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -39,6 +40,7 @@ import org.xwiki.security.authorization.AuthorizationManager;
 import org.xwiki.security.authorization.Right;
 import org.xwiki.template.TemplateManager;
 
+import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.objects.BaseObject;
 
@@ -68,6 +70,9 @@ public class GardeningActionScriptComponentBuilder implements WikiBaseObjectComp
     @Inject
     private ScriptContextManager scriptContextManager;
 
+    @Inject
+    private Provider<XWikiContext> xWikiContextProvider;
+
     @Override
     public List<WikiComponent> buildComponents(BaseObject baseObject) throws WikiComponentException
     {
@@ -79,8 +84,8 @@ public class GardeningActionScriptComponentBuilder implements WikiBaseObjectComp
             return Arrays.asList(
                     new DefaultGardeningActionScript(
                             baseObject.getReference(), parentDocument.getAuthorReference(), baseObject,
-                            templateManager, scriptContextManager));
-        } catch (GardeningException e) {
+                            templateManager, scriptContextManager, xWikiContextProvider));
+        } catch (Exception e) {
             throw new WikiComponentException(String.format("Failed to build the wiki component GardeningActionScript"
                     + " from [%s].", baseObject), e);
         }

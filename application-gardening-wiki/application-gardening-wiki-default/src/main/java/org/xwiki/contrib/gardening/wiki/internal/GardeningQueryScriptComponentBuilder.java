@@ -80,7 +80,7 @@ public class GardeningQueryScriptComponentBuilder implements WikiBaseObjectCompo
                     new DefaultGardeningQueryScript(
                             baseObject.getReference(), parentDocument.getAuthorReference(), baseObject,
                             templateManager, scriptContextManager));
-        } catch (GardeningException e) {
+        } catch (Exception e) {
             throw new WikiComponentException(String.format("Failed to build the wiki component GardeningActionScript"
                     + " from [%s].", baseObject), e);
         }

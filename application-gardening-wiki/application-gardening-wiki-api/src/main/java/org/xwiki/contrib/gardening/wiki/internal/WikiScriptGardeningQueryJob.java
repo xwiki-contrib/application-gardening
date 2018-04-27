@@ -54,6 +54,7 @@ public class WikiScriptGardeningQueryJob extends AbstractGardeningQueryJob
     private ModelBridge modelBridge;
 
     @Inject
+    @Named("wiki")
     private ComponentManager componentManager;
 
     @Override

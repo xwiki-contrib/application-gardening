@@ -21,6 +21,7 @@ package org.xwiki.contrib.gardening.wiki.internal;
 
 import java.lang.reflect.Type;
 
+import javax.inject.Provider;
 import javax.script.ScriptContext;
 
 import org.xwiki.component.wiki.WikiComponent;
@@ -33,6 +34,7 @@ import org.xwiki.script.ScriptContextManager;
 import org.xwiki.template.Template;
 import org.xwiki.template.TemplateManager;
 
+import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.objects.BaseObject;
 
 /**
@@ -59,6 +61,8 @@ public class DefaultGardeningActionScript implements GardeningActionScript, Wiki
 
     private TemplateManager templateManager;
 
+    private Provider<XWikiContext> xWikiContextProvider;
+
     private ScriptContextManager scriptContextManager;
 
     /**
@@ -69,17 +73,20 @@ public class DefaultGardeningActionScript implements GardeningActionScript, Wiki
      * @param baseObject the object holding the script
      * @param templateManager an instance of the template manager
      * @param scriptContextManager an instance of the script context manager
+     * @param xWikiContextProvider a provider for the XWiki Context
      * @throws GardeningScriptException if an error happens
      */
     public DefaultGardeningActionScript(EntityReference reference, DocumentReference authorReference,
             BaseObject baseObject, TemplateManager templateManager,
-            ScriptContextManager scriptContextManager) throws GardeningScriptException
+            ScriptContextManager scriptContextManager, Provider<XWikiContext> xWikiContextProvider)
+            throws GardeningScriptException
     {
         this.entityReference = reference;
         this.authorReference = authorReference;
         this.setProperties(baseObject);
         this.templateManager = templateManager;
         this.scriptContextManager = scriptContextManager;
+        this.xWikiContextProvider = xWikiContextProvider;
     }
 
     private void setProperties(BaseObject baseObject) throws GardeningScriptException
@@ -139,6 +146,7 @@ public class DefaultGardeningActionScript implements GardeningActionScript, Wiki
         currentScriptContext.setAttribute(DOCUMENT_BINDING_NAME, reference, ScriptContext.ENGINE_SCOPE);
 
         try {
+            xWikiContextProvider.get().setUserReference(authorReference);
             Template template = templateManager.createStringTemplate(scriptContent, authorReference);
             templateManager.execute(template);
         } catch (Exception e) {

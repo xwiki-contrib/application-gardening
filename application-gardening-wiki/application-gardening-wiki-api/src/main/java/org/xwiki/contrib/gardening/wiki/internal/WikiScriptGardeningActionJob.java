@@ -48,6 +48,7 @@ public class WikiScriptGardeningActionJob extends AbstractGardeningActionJob
     public static final String JOB_TYPE = "wikiScript" + AbstractGardeningActionJob.JOB_TYPE_SUFFIX;
 
     @Inject
+    @Named("wiki")
     private ComponentManager componentManager;
 
     @Inject
