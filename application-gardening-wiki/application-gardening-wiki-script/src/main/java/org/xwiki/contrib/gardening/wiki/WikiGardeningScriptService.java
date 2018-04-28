@@ -19,7 +19,9 @@
  */
 package org.xwiki.contrib.gardening.wiki;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -55,6 +57,9 @@ public class WikiGardeningScriptService implements ScriptService
     @Named(GardeningScriptService.ROLE_HINT)
     private ScriptService gardeningScriptService;
 
+    @Inject
+    private WikiGardeningManager wikiGardeningManager;
+
     /**
      * Start a new wiki gardening job.
      *
@@ -66,5 +71,23 @@ public class WikiGardeningScriptService implements ScriptService
         return ((GardeningScriptService) gardeningScriptService).start(
                 Collections.singleton(WikiScriptGardeningQueryJob.JOB_TYPE),
                 WikiScriptGardeningActionJob.JOB_TYPE);
+    }
+
+    /**
+     * @return a list of available gardening query scripts
+     * @throws GardeningException if an error happened
+     */
+    public List<String> getAvailableQueryScripts() throws GardeningException
+    {
+        return new ArrayList<>(wikiGardeningManager.getAvailableQueryScripts());
+    }
+
+    /**
+     * @return a list of available gardening action scripts
+     * @throws GardeningException if an error happened
+     */
+    public List<String> getAvailableActionScripts() throws GardeningException
+    {
+        return new ArrayList<>(wikiGardeningManager.getAvailableActionScripts());
     }
 }
