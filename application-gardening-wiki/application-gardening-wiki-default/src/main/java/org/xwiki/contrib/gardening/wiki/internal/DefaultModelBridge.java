@@ -59,6 +59,10 @@ public class DefaultModelBridge implements ModelBridge
     private static final LocalDocumentReference GARDENING_SCRIPT_CONFIGURATION_CLASS = new LocalDocumentReference(
             GARDENING_CODE_SPACE, "GardeningScriptConfigurationClass");
 
+    private static final String ACTIVE_QUERY_SCRIPTS = "activeQueryScripts";
+
+    private static final String ACTIVE_ACTION_SCRIPT = "activeActionScript";
+
     @Inject
     private Provider<XWikiContext> xWikiContextProvider;
 
@@ -70,7 +74,7 @@ public class DefaultModelBridge implements ModelBridge
 
             if (configuration != null) {
                 Set<String> activeQueryScripts =
-                        new HashSet<>((List<String>) configuration.getListValue("activeQueryScripts"));
+                        new HashSet<>((List<String>) configuration.getListValue(ACTIVE_QUERY_SCRIPTS));
                 return activeQueryScripts;
             } else {
                 return Collections.EMPTY_SET;
@@ -88,7 +92,7 @@ public class DefaultModelBridge implements ModelBridge
             BaseObject configuration = getGardeningScriptConfiguration();
 
             if (configuration != null) {
-                String activeActionScript = configuration.getStringValue("activeActionScript");
+                String activeActionScript = configuration.getStringValue(ACTIVE_ACTION_SCRIPT);
                 return (activeActionScript == null) ? StringUtils.EMPTY : activeActionScript;
             } else {
                 return StringUtils.EMPTY;
@@ -99,12 +103,46 @@ public class DefaultModelBridge implements ModelBridge
         }
     }
 
-    private BaseObject getGardeningScriptConfiguration() throws XWikiException
+    @Override
+    public void setActiveQueryScripts(Set<String> activeQueryScripts) throws GardeningException
+    {
+        try {
+            XWikiContext xWikiContext = xWikiContextProvider.get();
+            BaseObject configuration = getGardeningScriptConfiguration();
+
+            configuration.set(ACTIVE_QUERY_SCRIPTS,
+                    String.join(",", activeQueryScripts), xWikiContext);
+            xWikiContext.getWiki().saveDocument(getConfigurationDocument(), xWikiContext);
+        } catch (XWikiException e) {
+            throw new GardeningException("Failed to save the active query scripts.", e);
+        }
+    }
+
+    @Override
+    public void setActiveActionScript(String activeActionScript) throws GardeningException
+    {
+        try {
+            XWikiContext xWikiContext = xWikiContextProvider.get();
+            BaseObject configuration = getGardeningScriptConfiguration();
+
+            configuration.set(ACTIVE_ACTION_SCRIPT, activeActionScript, xWikiContext);
+            xWikiContext.getWiki().saveDocument(getConfigurationDocument(), xWikiContext);
+        } catch (XWikiException e) {
+            throw new GardeningException("Failed to save the active action script.", e);
+        }
+    }
+
+    private XWikiDocument getConfigurationDocument() throws XWikiException
     {
         XWikiContext xWikiContext = xWikiContextProvider.get();
         XWiki xwiki = xWikiContext.getWiki();
 
-        XWikiDocument document = xwiki.getDocument(GARDENING_SCRIPT_ADMINISTRATION, xWikiContext);
-        return document.getXObject(GARDENING_SCRIPT_CONFIGURATION_CLASS);
+        return xwiki.getDocument(GARDENING_SCRIPT_ADMINISTRATION, xWikiContext);
+    }
+
+    private BaseObject getGardeningScriptConfiguration() throws XWikiException
+    {
+        XWikiDocument document = getConfigurationDocument();
+        return document.getXObject(GARDENING_SCRIPT_CONFIGURATION_CLASS, true, xWikiContextProvider.get());
     }
 }

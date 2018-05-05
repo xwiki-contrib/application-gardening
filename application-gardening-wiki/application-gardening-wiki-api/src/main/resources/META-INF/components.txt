@@ -1,3 +1,4 @@
+org.xwiki.contrib.gardening.wiki.internal.DefaultWikiGardeningConfiguration
 org.xwiki.contrib.gardening.wiki.internal.DefaultWikiGardeningManager
 org.xwiki.contrib.gardening.wiki.internal.WikiScriptGardeningActionJob
 org.xwiki.contrib.gardening.wiki.internal.WikiScriptGardeningQueryJob

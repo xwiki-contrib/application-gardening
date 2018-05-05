@@ -62,6 +62,9 @@ public class WikiGardeningScriptService implements ScriptService
     @Inject
     private WikiGardeningManager wikiGardeningManager;
 
+    @Inject
+    private WikiGardeningConfiguration wikiGardeningConfiguration;
+
     /**
      * Start a new wiki gardening job.
      *
@@ -91,5 +94,13 @@ public class WikiGardeningScriptService implements ScriptService
     public List<GardeningActionScript> getAvailableActionScripts() throws GardeningException
     {
         return new ArrayList<>(wikiGardeningManager.getAvailableActionScripts());
+    }
+
+    /**
+     * @return the wiki gardening configuration component
+     */
+    public WikiGardeningConfiguration getConfiguration()
+    {
+        return wikiGardeningConfiguration;
     }
 }

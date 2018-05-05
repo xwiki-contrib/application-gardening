@@ -17,30 +17,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.contrib.gardening.wiki.internal;
+package org.xwiki.contrib.gardening.wiki;
 
-import java.util.Set;
+import java.util.List;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.contrib.gardening.GardeningException;
+import org.xwiki.stability.Unstable;
 
 /**
- * Internal bridge allowing to access the wiki model without directly depending on the old core.
+ * Role responsible for defining the configuration values of the wiki gardening application.
  *
  * @version $Id$
  * @since 1.0
  */
 @Role
-public interface ModelBridge
+@Unstable
+public interface WikiGardeningConfiguration
 {
     /**
-     * @return a list of active {@link org.xwiki.contrib.gardening.scripts.GardeningQueryScript}.
+     * @return a list of active gardening query scripts (by identifiers)
      * @throws GardeningException if an error happens
      */
-    Set<String> getActiveQueryScripts() throws GardeningException;
+    List<String> getActiveQueryScripts() throws GardeningException;
 
     /**
-     * @return the active {@link org.xwiki.contrib.gardening.scripts.GardeningActionScript}.
+     * @return the active gardening action script identifier
      * @throws GardeningException if an error happens
      */
     String getActiveActionScript() throws GardeningException;
@@ -51,7 +53,15 @@ public interface ModelBridge
      * @param activeQueryScripts a list of script identifiers
      * @throws GardeningException if an error happens
      */
-    void setActiveQueryScripts(Set<String> activeQueryScripts) throws GardeningException;
+    void setActiveQueryScripts(List<String> activeQueryScripts) throws GardeningException;
+
+    /**
+     * Same as {@link #setActiveQueryScripts(List)}.
+     *
+     * @param activeQueryScripts a list of script identifiers
+     * @throws GardeningException if an error happens
+     */
+    void setActiveQueryScripts(String[] activeQueryScripts) throws GardeningException;
 
     /**
      * Set the gardening action script that should be active.

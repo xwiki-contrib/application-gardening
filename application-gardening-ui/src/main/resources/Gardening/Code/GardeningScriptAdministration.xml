@@ -37,79 +37,74 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
-  <content>{{velocity output="false"}}
-  {{include reference="Gardening.Code.JobMacros"/}}##
-  #set($gardeningConfiguration = $xwiki.getDocument("Gadening.Code.GardeningScriptAdministration").getObject("Gardening.Code.GardeningScriptConfigurationClass", true).getXWikiObject())
-  #set($activeQueryScripts = $gardeningConfiguration.getListValue("activeQueryScripts"))
-  #set($activeActionScript = $gardeningConfiguration.getStringValue("activeActionScript"))
+  <hidden>true</hidden>
+  <content>{{include reference="Gardening.Code.JobMacros"/}}
+{{velocity output="false"}}
+#if($request.getParameterValues('activeQueryScripts'))
+  #set($discard = $services.gardening.wiki.getConfiguration().setActiveQueryScripts($request.getParameterValues("activeQueryScripts")))
+#end
+#if("$!request.activeActionScript" != '')
+  #set($discard = $services.gardening.wiki.getConfiguration().setActiveActionScript($request.activeActionScript))
+#end
+
+#set($activeQueryScripts = $services.gardening.wiki.getConfiguration().getActiveQueryScripts())
+#set($activeActionScript = $services.gardening.wiki.getConfiguration().getActiveActionScript())
 {{/velocity}}
 
 {{velocity}}
-
-a
-
-$!activeQueryScripts
-
-$!activeActionScript
-a
 == $services.localization.render('gardening.wiki.selectScripts') ==
-
 {{html clean="false"}}
 &lt;form method="post" action="#" class="xform"&gt;
   &lt;dl&gt;
     &lt;dt&gt;
-      &lt;label for="Gardening.Code.GardeningScriptConfigurationClass_0_activeQueryScripts"&gt;
-        $services.localization.render("Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts")
+      &lt;label for="activeQueryScripts"&gt;
+        $services.localization.render('Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts')
       &lt;/label&gt;
     &lt;/dt&gt;
     &lt;dd&gt;
-      &lt;select multiple&gt;
+      &lt;select multiple name="activeQueryScripts" id="activeQueryScripts"&gt;
         #foreach($queryScript in $services.gardening.wiki.getAvailableQueryScripts())
-          &lt;option value="$queryScript.getIdentifier()" #if($activeQueryScripts.contains($queryScript.getIdentifier())) selected #end&gt;        $!activeQueryScripts.contains($queryScript.getIdentifier())
- $queryScript.getName()&lt;/option&gt;
+          &lt;option value="$queryScript.getIdentifier()" #if($activeQueryScripts.contains($queryScript.getIdentifier())) selected #end&gt;$queryScript.getName()&lt;/option&gt;
         #end
       &lt;/select&gt;
     &lt;/dd&gt;
     &lt;dt&gt;
-      &lt;label for="Gardening.Code.GardeningScriptConfigurationClass_0_activeActionScript"&gt;
-        $services.localization.render("Gardening.Code.GardeningScriptConfigurationClass_activeActionScript")
+      &lt;label for="activeActionScript"&gt;
+        $services.localization.render('Gardening.Code.GardeningScriptConfigurationClass_activeActionScript')
       &lt;/label&gt;
     &lt;/dt&gt;
     &lt;dd&gt;
-      &lt;select&gt;
+      &lt;select name="activeActionScript" id="activeActionScript"&gt;
         #foreach($actionScript in $services.gardening.wiki.getAvailableActionScripts())
           &lt;option value="$actionScript.getIdentifier()" #if($!activeActionScript == $actionScript.getIdentifier()) selected #end&gt;$actionScript.getName()&lt;/option&gt;
         #end
       &lt;/select&gt;
     &lt;/dd&gt;
   &lt;/dl&gt;
+  &lt;input type="submit" class="btn btn-primary" value="$services.localization.render('save')"/&gt;
 &lt;/form&gt;
 {{/html}}
 
 
 == $services.localization.render('gardening.wiki.startJob') ==
-
 #set($jobStatus = $services.gardening.getLastGardeningJobStatus())
-#set($jobStatusDocument = 'Gardening.Code.GardeningJobJSON')
-
-#if ("$!request.action" == "startScriptGardening" &amp;&amp; (!$jobStatus || $jobStatus.state.name() == 'FINISHED'))
+#if ("$!request.action" == 'startScriptGardening' &amp;&amp; (!$jobStatus || $jobStatus.state.name() == 'FINISHED'))
   #set($jobStatus = $services.gardening.wiki.start())
 #end
 
 #if($jobStatus &amp;&amp; $jobStatus.state.name() != 'FINISHED')
+  #set($jobStatusDocument = 'Gardening.Code.GardeningJobJSON')
   #displayJobStatus('gardeningJobStatus' $jobStatus $jobStatusDocument 'gardening.job.success' 'gardening.job.error')
+
 #else
   {{html clean="false" wiki="true"}}
     &lt;form method="post" id="scriptGardeningForm" action="#"&gt;
       &lt;input type="hidden" name="action" value="startScriptGardening"/&gt;
-      &lt;input type="submit" class="btn btn-info" value="$services.localization.render('gardening.wiki.start')"/&gt;
+      &lt;input type="submit" class="btn btn-primary" value="$services.localization.render('gardening.wiki.start')"/&gt;
     &lt;/form&gt;
   {{/html}}
 #end
-{{/velocity}}
-
- </content>
+{{/velocity}}</content>
   <object>
     <name>Gardening.Code.GardeningScriptAdministration</name>
     <number>0</number>
@@ -151,12 +146,10 @@ a
       </activeQueryScripts>
     </class>
     <property>
-      <activeActionScript>test</activeActionScript>
+      <activeActionScript/>
     </property>
     <property>
-      <activeQueryScripts>
-        <value>test</value>
-      </activeQueryScripts>
+      <activeQueryScripts/>
     </property>
   </object>
   <object>
@@ -348,7 +341,7 @@ a
       <codeToExecute>{{include reference='Gardening.Code.GardeningScriptAdministration' /}}</codeToExecute>
     </property>
     <property>
-      <configurationClass>Gardening.Code.GardeningScriptConfigurationClass</configurationClass>
+      <configurationClass/>
     </property>
     <property>
       <configureGlobally>1</configureGlobally>
