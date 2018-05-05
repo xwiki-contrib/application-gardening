@@ -30,6 +30,8 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.gardening.GardeningException;
 import org.xwiki.contrib.gardening.script.GardeningScriptService;
+import org.xwiki.contrib.gardening.scripts.GardeningActionScript;
+import org.xwiki.contrib.gardening.scripts.GardeningQueryScript;
 import org.xwiki.contrib.gardening.wiki.internal.WikiScriptGardeningActionJob;
 import org.xwiki.contrib.gardening.wiki.internal.WikiScriptGardeningQueryJob;
 import org.xwiki.job.event.status.JobStatus;
@@ -77,7 +79,7 @@ public class WikiGardeningScriptService implements ScriptService
      * @return a list of available gardening query scripts
      * @throws GardeningException if an error happened
      */
-    public List<String> getAvailableQueryScripts() throws GardeningException
+    public List<GardeningQueryScript> getAvailableQueryScripts() throws GardeningException
     {
         return new ArrayList<>(wikiGardeningManager.getAvailableQueryScripts());
     }
@@ -86,7 +88,7 @@ public class WikiGardeningScriptService implements ScriptService
      * @return a list of available gardening action scripts
      * @throws GardeningException if an error happened
      */
-    public List<String> getAvailableActionScripts() throws GardeningException
+    public List<GardeningActionScript> getAvailableActionScripts() throws GardeningException
     {
         return new ArrayList<>(wikiGardeningManager.getAvailableActionScripts());
     }

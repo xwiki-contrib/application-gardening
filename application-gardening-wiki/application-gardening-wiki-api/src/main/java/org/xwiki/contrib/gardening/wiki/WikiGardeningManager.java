@@ -23,6 +23,8 @@ import java.util.Set;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.contrib.gardening.GardeningException;
+import org.xwiki.contrib.gardening.scripts.GardeningActionScript;
+import org.xwiki.contrib.gardening.scripts.GardeningQueryScript;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -39,11 +41,11 @@ public interface WikiGardeningManager
      * @return a set of currently available query scripts
      * @throws GardeningException if an error happens
      */
-    Set<String> getAvailableQueryScripts() throws GardeningException;
+    Set<GardeningQueryScript> getAvailableQueryScripts() throws GardeningException;
 
     /**
      * @return a set of currently available action scripts
      * @throws GardeningException if an error happens
      */
-    Set<String> getAvailableActionScripts() throws GardeningException;
+    Set<GardeningActionScript> getAvailableActionScripts() throws GardeningException;
 }

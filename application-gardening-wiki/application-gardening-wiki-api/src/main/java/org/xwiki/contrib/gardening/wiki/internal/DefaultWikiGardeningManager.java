@@ -21,6 +21,7 @@ package org.xwiki.contrib.gardening.wiki.internal;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,8 +29,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.descriptor.ComponentDescriptor;
+import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.contrib.gardening.GardeningException;
 import org.xwiki.contrib.gardening.scripts.GardeningActionScript;
@@ -50,21 +53,48 @@ public class DefaultWikiGardeningManager implements WikiGardeningManager
     @Named("wiki")
     private ComponentManager wikiComponentManager;
 
+    @Inject
+    private Logger logger;
+
     @Override
-    public Set<String> getAvailableQueryScripts() throws GardeningException
+    public Set<GardeningQueryScript> getAvailableQueryScripts() throws GardeningException
     {
         List<ComponentDescriptor<GardeningQueryScript>> scripts =
                 wikiComponentManager.getComponentDescriptorList((Type) GardeningQueryScript.class);
 
-        return scripts.stream().map(ComponentDescriptor::getRoleHint).collect(Collectors.toSet());
+        return scripts.stream()
+                .map(x -> this.getComponent(GardeningQueryScript.class, x.getRoleHint()))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
     @Override
-    public Set<String> getAvailableActionScripts() throws GardeningException
+    public Set<GardeningActionScript> getAvailableActionScripts() throws GardeningException
     {
         List<ComponentDescriptor<GardeningQueryScript>> scripts =
                 wikiComponentManager.getComponentDescriptorList((Type) GardeningActionScript.class);
 
-        return scripts.stream().map(ComponentDescriptor::getRoleHint).collect(Collectors.toSet());
+        return scripts.stream()
+                .map(x -> this.getComponent(GardeningActionScript.class, x.getRoleHint()))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Will return the corresponding component of the injected component manager or log an exception.
+     *
+     * @param cls the class of the component to retrieve
+     * @param roleHint the hint of the component
+     * @param <T> the type of the component
+     * @return the found component
+     */
+    private <T> T getComponent(Class<T> cls, String roleHint)
+    {
+        try {
+            return wikiComponentManager.getInstance(cls, roleHint);
+        } catch (ComponentLookupException e) {
+            logger.error("Failed to fetch component [{}] with hint [{}] from the component manager.", cls, roleHint, e);
+            return null;
+        }
     }
 }
