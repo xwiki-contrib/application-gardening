@@ -31,7 +31,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>Gardening Application - Parent POM</name>
   <packaging>pom</packaging>
-  <description> Automate some gardening actions in order to keep a wiki clean</description>
+  <description>Automate some gardening actions in order to keep a wiki clean</description>
   <scm>
     <connection>scm:git:git://github.com/xwiki-contrib/application-gardening.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki-contrib/application-gardening.git</developerConnection>
