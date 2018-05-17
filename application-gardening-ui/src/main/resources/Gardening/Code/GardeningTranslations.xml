@@ -40,11 +40,9 @@
   <hidden>true</hidden>
   <content>gardening.wiki.selectScripts=Select active gardening scripts
 gardening.wiki.startJob=Start gardening
-gardening.wiki.start=Start mowing !
-
-gardening.job.success=Success !
+gardening.wiki.start=Start mowing!
+gardening.job.success=Success!
 gardening.job.error=An error happened, see the logs for more information.
-
 Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts=Active query scripts
 Gardening.Code.GardeningScriptConfigurationClass_activeActionScript=Active action script</content>
   <object>
