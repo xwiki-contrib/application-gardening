@@ -39,72 +39,81 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content>{{include reference="Gardening.Code.JobMacros"/}}
-{{velocity output="false"}}
-#if($request.getParameterValues('activeQueryScripts'))
-  #set($discard = $services.gardening.wiki.getConfiguration().setActiveQueryScripts($request.getParameterValues("activeQueryScripts")))
-#end
-#if("$!request.activeActionScript" != '')
-  #set($discard = $services.gardening.wiki.getConfiguration().setActiveActionScript($request.activeActionScript))
-#end
+    {{velocity output="false"}}
+    #if($request.getParameterValues('activeQueryScripts'))
+    #set($discard = $services.gardening.wiki.getConfiguration().setActiveQueryScripts($request.getParameterValues("activeQueryScripts")))
+    #end
+    #if("$!request.activeActionScript" != '')
+    #set($discard = $services.gardening.wiki.getConfiguration().setActiveActionScript($request.activeActionScript))
+    #end
 
-#set($activeQueryScripts = $services.gardening.wiki.getConfiguration().getActiveQueryScripts())
-#set($activeActionScript = $services.gardening.wiki.getConfiguration().getActiveActionScript())
-{{/velocity}}
+    #set($activeQueryScripts = $services.gardening.wiki.getConfiguration().getActiveQueryScripts())
+    #set($activeActionScript = $services.gardening.wiki.getConfiguration().getActiveActionScript())
+    {{/velocity}}
 
-{{velocity}}
-== $services.localization.render('gardening.wiki.selectScripts') ==
-{{html clean="false"}}
-&lt;form method="post" action="#" class="xform"&gt;
-  &lt;dl&gt;
+    {{velocity}}
+    == $services.localization.render('gardening.wiki.selectScripts') ==
+    {{html clean="false"}}
+    &lt;form method="post" action="#" class="xform"&gt;
+    &lt;dl&gt;
     &lt;dt&gt;
-      &lt;label for="activeQueryScripts"&gt;
-        $services.localization.render('Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts')
-      &lt;/label&gt;
+    &lt;label for="activeQueryScripts"&gt;
+    $services.localization.render('Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts')
+    &lt;/label&gt;
     &lt;/dt&gt;
     &lt;dd&gt;
-      &lt;select multiple name="activeQueryScripts" id="activeQueryScripts"&gt;
-        #foreach($queryScript in $services.gardening.wiki.getAvailableQueryScripts())
-          &lt;option value="$queryScript.getIdentifier()" #if($activeQueryScripts.contains($queryScript.getIdentifier())) selected #end&gt;$queryScript.getName()&lt;/option&gt;
-        #end
-      &lt;/select&gt;
+    #set($queryScripts = $services.gardening.wiki.getAvailableQueryScripts())
+    #if ($queryScripts.size() == 0)
+    $services.localization.render('gardening.wiki.noQueryScripts')
+    #else
+    &lt;select multiple name="activeQueryScripts" id="activeQueryScripts"&gt;
+    #foreach($queryScript in $queryScripts)
+    &lt;option value="$queryScript.getIdentifier()" #if($activeQueryScripts.contains($queryScript.getIdentifier())) selected #end&gt;$queryScript.getName()&lt;/option&gt;
+    #end
+    &lt;/select&gt;
+    #end
     &lt;/dd&gt;
     &lt;dt&gt;
-      &lt;label for="activeActionScript"&gt;
-        $services.localization.render('Gardening.Code.GardeningScriptConfigurationClass_activeActionScript')
-      &lt;/label&gt;
+    &lt;label for="activeActionScript"&gt;
+    $services.localization.render('Gardening.Code.GardeningScriptConfigurationClass_activeActionScript')
+    &lt;/label&gt;
     &lt;/dt&gt;
     &lt;dd&gt;
-      &lt;select name="activeActionScript" id="activeActionScript"&gt;
-        #foreach($actionScript in $services.gardening.wiki.getAvailableActionScripts())
-          &lt;option value="$actionScript.getIdentifier()" #if($!activeActionScript == $actionScript.getIdentifier()) selected #end&gt;$actionScript.getName()&lt;/option&gt;
-        #end
-      &lt;/select&gt;
+    #set($actionScripts = $services.gardening.wiki.getAvailableActionScripts())
+    #if ($actionScripts.size() == 0)
+    $services.localization.render('gardening.wiki.noActionScripts')
+    #else
+    &lt;select name="activeActionScript" id="activeActionScript"&gt;
+    #foreach($actionScript in $actionScripts)
+    &lt;option value="$actionScript.getIdentifier()" #if($!activeActionScript == $actionScript.getIdentifier()) selected #end&gt;$actionScript.getName()&lt;/option&gt;
+    #end
+    &lt;/select&gt;
+    #end
     &lt;/dd&gt;
-  &lt;/dl&gt;
-  &lt;input type="submit" class="btn btn-primary" value="$services.localization.render('save')"/&gt;
-&lt;/form&gt;
-{{/html}}
-
-
-== $services.localization.render('gardening.wiki.startJob') ==
-#set($jobStatus = $services.gardening.getLastGardeningJobStatus())
-#if ("$!request.action" == 'startScriptGardening' &amp;&amp; (!$jobStatus || $jobStatus.state.name() == 'FINISHED'))
-  #set($jobStatus = $services.gardening.wiki.start())
-#end
-
-#if($jobStatus &amp;&amp; $jobStatus.state.name() != 'FINISHED')
-  #set($jobStatusDocument = 'Gardening.Code.GardeningJobJSON')
-  #displayJobStatus('gardeningJobStatus' $jobStatus $jobStatusDocument 'gardening.job.success' 'gardening.job.error')
-
-#else
-  {{html clean="false" wiki="true"}}
-    &lt;form method="post" id="scriptGardeningForm" action="#"&gt;
-      &lt;input type="hidden" name="action" value="startScriptGardening"/&gt;
-      &lt;input type="submit" class="btn btn-primary" value="$services.localization.render('gardening.wiki.start')"/&gt;
+    &lt;/dl&gt;
+    &lt;input type="submit" class="btn btn-primary" value="$services.localization.render('save')"/&gt;
     &lt;/form&gt;
-  {{/html}}
-#end
-{{/velocity}}</content>
+    {{/html}}
+
+    == $services.localization.render('gardening.wiki.startJob') ==
+    #set($jobStatus = $services.gardening.getLastGardeningJobStatus())
+    #if ("$!request.action" == 'startScriptGardening' &amp;&amp; (!$jobStatus || $jobStatus.state.name() == 'FINISHED'))
+    #set($jobStatus = $services.gardening.wiki.start())
+    #end
+
+    #if($jobStatus &amp;&amp; $jobStatus.state.name() != 'FINISHED')
+    #set($jobStatusDocument = 'Gardening.Code.GardeningJobJSON')
+    #displayJobStatus('gardeningJobStatus' $jobStatus $jobStatusDocument 'gardening.job.success' 'gardening.job.error')
+
+    #else
+    {{html clean="false" wiki="true"}}
+    &lt;form method="post" id="scriptGardeningForm" action="#"&gt;
+    &lt;input type="hidden" name="action" value="startScriptGardening"/&gt;
+    &lt;input type="submit" class="btn btn-primary" value="$services.localization.render('gardening.wiki.start')"/&gt;
+    &lt;/form&gt;
+    {{/html}}
+    #end
+    {{/velocity}}</content>
   <object>
     <name>Gardening.Code.GardeningScriptAdministration</name>
     <number>0</number>
