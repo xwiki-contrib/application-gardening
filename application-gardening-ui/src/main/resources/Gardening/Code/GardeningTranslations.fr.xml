@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -45,5 +46,4 @@ gardening.job.success=Terminé !
 gardening.job.error=Une erreur est survenue, consultez les journaux pour plus d'information.
 Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts=Scripts de requête actifs
 Gardening.Code.GardeningScriptConfigurationClass_activeActionScript=Script d'action actif</content>
-
 </xwikidoc>
