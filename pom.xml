@@ -28,7 +28,7 @@
     <version>9.11-5</version>
   </parent>
   <artifactId>application-gardening</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <name>Gardening Application - Parent POM</name>
   <packaging>pom</packaging>
   <description>Automate some gardening actions in order to keep a wiki clean</description>
@@ -36,7 +36,7 @@
     <connection>scm:git:git://github.com/xwiki-contrib/application-gardening.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki-contrib/application-gardening.git</developerConnection>
     <url>https://github.com/xwiki-contrib/application-gardening/tree/master</url>
-    <tag>HEAD</tag>
+    <tag>application-gardening-1.2</tag>
   </scm>
   <developers>
     <developer>
