@@ -30,7 +30,10 @@
   <artifactId>application-gardening-ui</artifactId>
   <name>Gardening Application - UI</name>
   <packaging>xar</packaging>
-  <description>Generic set of wiki pages for the gardening application framework</description>
+  <properties>
+    <xwiki.extension.name>Gardening Application</xwiki.extension.name>
+    <xwiki.extension.category>application</xwiki.extension.category>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.contrib</groupId>
