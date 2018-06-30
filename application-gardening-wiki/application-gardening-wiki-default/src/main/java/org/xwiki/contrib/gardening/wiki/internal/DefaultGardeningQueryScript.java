@@ -24,12 +24,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.component.wiki.WikiComponent;
 import org.xwiki.component.wiki.WikiComponentScope;
 import org.xwiki.contrib.gardening.scripts.GardeningQueryScript;
 import org.xwiki.contrib.gardening.scripts.GardeningScriptException;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReference;
 import org.xwiki.script.ScriptContextManager;
 import org.xwiki.template.Template;
@@ -63,25 +66,34 @@ public class DefaultGardeningQueryScript implements GardeningQueryScript, WikiCo
 
     private ScriptContextManager scriptContextManager;
 
+    private DocumentReferenceResolver<String> documentReferenceResolver;
+
     /**
      * Build a new {@link DefaultGardeningQueryScript}.
      *
      * @param reference a reference to the document holding the script
      * @param authorReference a reference to the author of the document
      * @param baseObject the object holding the script
-     * @param templateManager an instance of the template manager
-     * @param scriptContextManager an instance of the script context manager
+     * @param componentManager the component manager used to extract the different managers used for parsing the
+     * wiki script
      * @throws GardeningScriptException if an error happens
      */
     public DefaultGardeningQueryScript(EntityReference reference, DocumentReference authorReference,
-            BaseObject baseObject, TemplateManager templateManager,
-            ScriptContextManager scriptContextManager) throws GardeningScriptException
+            BaseObject baseObject, ComponentManager componentManager)
+            throws GardeningScriptException
     {
         this.entityReference = reference;
         this.authorReference = authorReference;
         this.setProperties(baseObject);
-        this.templateManager = templateManager;
-        this.scriptContextManager = scriptContextManager;
+
+        try {
+            this.templateManager = componentManager.getInstance(TemplateManager.class);
+            this.scriptContextManager = componentManager.getInstance(ScriptContextManager.class);
+            this.documentReferenceResolver = componentManager.getInstance(
+                    new DefaultParameterizedType(DocumentReferenceResolver.TYPE_STRING));
+        } catch (ComponentLookupException e) {
+            throw new GardeningScriptException("Failed to fetch essential managers for the Query Script.", e);
+        }
     }
 
     private void setProperties(BaseObject baseObject) throws GardeningScriptException
@@ -148,8 +160,14 @@ public class DefaultGardeningQueryScript implements GardeningQueryScript, WikiCo
             if (xreturn != null && xreturn instanceof List<?>) {
                 List<?> rawDocumentlist = (List<?>) xreturn;
 
-                if (rawDocumentlist.size() != 0 && rawDocumentlist.get(0) instanceof DocumentReference) {
-                    foundDocuments.addAll((List<DocumentReference>) rawDocumentlist);
+                if (rawDocumentlist.size() != 0) {
+                    if (rawDocumentlist.get(0) instanceof DocumentReference) {
+                        foundDocuments.addAll((List<DocumentReference>) rawDocumentlist);
+                    } else if (rawDocumentlist.get(0) instanceof String) {
+                        for (String document : (List<String>) rawDocumentlist) {
+                            foundDocuments.add(documentReferenceResolver.resolve(document));
+                        }
+                    }
                 }
             }
 

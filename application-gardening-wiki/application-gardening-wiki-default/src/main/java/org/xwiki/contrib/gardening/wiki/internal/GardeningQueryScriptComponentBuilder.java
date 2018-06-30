@@ -27,6 +27,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.wiki.WikiComponent;
 import org.xwiki.component.wiki.WikiComponentException;
 import org.xwiki.component.wiki.internal.bridge.WikiBaseObjectComponentBuilder;
@@ -34,10 +35,8 @@ import org.xwiki.contrib.gardening.GardeningException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReference;
 import org.xwiki.model.reference.LocalDocumentReference;
-import org.xwiki.script.ScriptContextManager;
 import org.xwiki.security.authorization.AuthorizationManager;
 import org.xwiki.security.authorization.Right;
-import org.xwiki.template.TemplateManager;
 
 import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.objects.BaseObject;
@@ -63,10 +62,8 @@ public class GardeningQueryScriptComponentBuilder implements WikiBaseObjectCompo
     private AuthorizationManager authorizationManager;
 
     @Inject
-    private TemplateManager templateManager;
-
-    @Inject
-    private ScriptContextManager scriptContextManager;
+    @Named("context")
+    private ComponentManager componentManager;
 
     @Override
     public List<WikiComponent> buildComponents(BaseObject baseObject) throws WikiComponentException
@@ -79,7 +76,7 @@ public class GardeningQueryScriptComponentBuilder implements WikiBaseObjectCompo
             return Arrays.asList(
                     new DefaultGardeningQueryScript(
                             baseObject.getReference(), parentDocument.getAuthorReference(), baseObject,
-                            templateManager, scriptContextManager));
+                            componentManager));
         } catch (Exception e) {
             throw new WikiComponentException(String.format("Failed to build the wiki component GardeningActionScript"
                     + " from [%s].", baseObject), e);
