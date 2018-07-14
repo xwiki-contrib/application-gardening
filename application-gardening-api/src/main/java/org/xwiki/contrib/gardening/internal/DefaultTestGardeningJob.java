@@ -19,52 +19,40 @@
  */
 package org.xwiki.contrib.gardening.internal;
 
-import java.util.Arrays;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.contrib.gardening.AbstractGardeningJob;
-import org.xwiki.contrib.gardening.GardeningActionJobRequest;
-import org.xwiki.job.Job;
-import org.xwiki.job.JobExecutor;
+import org.xwiki.contrib.gardening.AbstractTestGardeningJob;
 import org.xwiki.model.reference.DocumentReference;
 
 /**
- * This is the default implementation of the {@link AbstractGardeningJob}.
+ * This is an implementaion of {@link org.xwiki.contrib.gardening.AbstractGardeningJob} used for testing purposes only.
+ * This job calls all the selected query jobs, but will not call the action scripts on the returned documents.
  *
  * @version $Id$
- * @since 1.0
+ * @since 1.3
  */
 @Component
-@Named(AbstractGardeningJob.JOB_TYPE)
-public class DefaultGardeningJob extends AbstractGardeningJob
+@Named(AbstractTestGardeningJob.JOB_TYPE)
+public class DefaultTestGardeningJob extends AbstractTestGardeningJob
 {
-    @Inject
-    private JobExecutor jobExecutor;
-
     @Inject
     private GardeningJobHelper gardeningJobHelper;
 
     @Override
     protected void runInternal() throws Exception
     {
+        logger.info("Starting test gardening job ; no action will be taken ...");
         Set<DocumentReference> foundDocuments = gardeningJobHelper.findDocuments(request);
 
-        logger.info("{} documents found, triggering action job [{}] for each document",
-                foundDocuments.size(), request.getActionJobType());
+        logger.info("{} documents found, in a real case the job [{}] would be triggered for each document at "
+                        + "this point", foundDocuments.size(), request.getActionJobType());
 
         for (DocumentReference document : foundDocuments) {
-            logger.info("Starting action job [{}] for document [{}]", request.getActionJobType(), document);
-
-            GardeningActionJobRequest actionJobRequest = new GardeningActionJobRequest(document);
-            actionJobRequest.setId(Arrays.asList(request.getActionJobType(), UUID.randomUUID().toString()));
-
-            Job actionJob = jobExecutor.execute(request.getActionJobType(), actionJobRequest);
-            actionJob.join();
+            logger.info("Found document [{}]", document);
         }
     }
 }

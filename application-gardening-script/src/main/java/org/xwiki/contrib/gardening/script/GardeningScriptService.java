@@ -32,6 +32,7 @@ import javax.inject.Singleton;
 import org.xwiki.bridge.DocumentAccessBridge;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.gardening.AbstractGardeningJob;
+import org.xwiki.contrib.gardening.AbstractTestGardeningJob;
 import org.xwiki.contrib.gardening.GardeningException;
 import org.xwiki.contrib.gardening.GardeningJobRequest;
 import org.xwiki.job.Job;
@@ -105,11 +106,7 @@ public class GardeningScriptService implements ScriptService
      */
     public JobStatus start(Collection<String> queryJobTypes, String actionJobType) throws GardeningException
     {
-        DocumentReference currentUser = documentAccessBridge.getCurrentUserReference();
-
-        if (!authorizationManager.hasAccess(Right.ADMIN, currentUser, modelContext.getCurrentEntityReference())) {
-            throw new GardeningException("Starting a gardening job requires administrator privileges.");
-        }
+        checkAdminRights();
 
         // Convert the queryJobTypes to a set that can be transferred to the job request
         Set<String> queryJobTypesSet = new HashSet<>(queryJobTypes);
@@ -131,10 +128,50 @@ public class GardeningScriptService implements ScriptService
     }
 
     /**
+     * Start a new test gardenig job.
+     *
+     * @param queryJobTypes a collection of job types that will be used for fetching a set of documents that need
+     * to be gardened.
+     * @param actionJobType the job type of the action to apply on the selected documents
+     * @return the job status of the global gardening action
+     * @throws GardeningException if an error happens
+     */
+    public JobStatus startTest(Collection<String> queryJobTypes, String actionJobType) throws GardeningException
+    {
+        checkAdminRights();
+
+        // Same as in #start()
+        Set<String> queryJobTypesSet = new HashSet<>(queryJobTypes);
+
+        GardeningJobRequest jobRequest = new GardeningJobRequest();
+        jobRequest.setQueryJobTypes(queryJobTypesSet);
+        jobRequest.setActionJobType(actionJobType);
+        jobRequest.setId(Arrays.asList(AbstractTestGardeningJob.JOB_TYPE, UUID.randomUUID().toString()));
+
+        try {
+            Job job = jobExecutor.execute(AbstractTestGardeningJob.JOB_TYPE, jobRequest);
+
+            lastGardeningJobStatus = job.getStatus();
+            return lastGardeningJobStatus;
+        } catch (JobException e) {
+            throw new GardeningException(
+                    String.format("Failed to start the test gardening job [%s]", jobRequest.getId()), e);
+        }
+    }
+
+    /**
      * @return the last gardening job status, or null if none has already been triggered
      */
     public JobStatus getLastGardeningJobStatus()
     {
         return lastGardeningJobStatus;
+    }
+
+    private void checkAdminRights() throws GardeningException {
+        DocumentReference currentUser = documentAccessBridge.getCurrentUserReference();
+
+        if (!authorizationManager.hasAccess(Right.ADMIN, currentUser, modelContext.getCurrentEntityReference())) {
+            throw new GardeningException("Starting a gardening job requires administrator privileges.");
+        }
     }
 }

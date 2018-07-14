@@ -79,6 +79,19 @@ public class WikiGardeningScriptService implements ScriptService
     }
 
     /**
+     * Start a new test wiki gardening job. This job will not act on the documents returned by the query scripts.
+     *
+     * @return the job status of the global gardening job
+     * @throws GardeningException if an error happened
+     */
+    public JobStatus startTest() throws GardeningException
+    {
+        return ((GardeningScriptService) gardeningScriptService).startTest(
+                Collections.singleton(WikiScriptGardeningQueryJob.JOB_TYPE),
+                WikiScriptGardeningActionJob.JOB_TYPE);
+    }
+
+    /**
      * @return a list of available gardening query scripts
      * @throws GardeningException if an error happened
      */

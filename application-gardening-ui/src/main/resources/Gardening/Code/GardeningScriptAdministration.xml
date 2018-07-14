@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -130,7 +129,9 @@
   == $services.localization.render('gardening.wiki.startJob') ==
 
   #set($jobStatus = $services.gardening.getLastGardeningJobStatus())
-  #if ("$!request.action" == 'startScriptGardening' &amp;&amp; (!$jobStatus || $jobStatus.state.name() == 'FINISHED'))
+  #if ("$!request.action" == 'startTestScriptGardening' &amp;&amp; (!$jobStatus || $jobStatus.state.name() == 'FINISHED'))
+    #set($jobStatus = $services.gardening.wiki.startTest())
+  #elseif ("$!request.action" == 'startScriptGardening' &amp;&amp; (!$jobStatus || $jobStatus.state.name() == 'FINISHED'))
     #set($jobStatus = $services.gardening.wiki.start())
   #end
 
@@ -139,6 +140,10 @@
     #displayJobStatus('gardeningJobStatus' $jobStatus $jobStatusDocument 'gardening.job.success' 'gardening.job.error')
   #else
     {{html clean="false" wiki="true"}}
+      &lt;form method="post" id="scriptTestGardeningForm" action="#"&gt;
+        &lt;input type="hidden" name="action" value="startTestScriptGardening"/&gt;
+        &lt;input type="submit" class="btn btn-primary" value="$services.localization.render('gardening.wiki.startTest')"/&gt;
+      &lt;/form&gt;
       &lt;form method="post" id="scriptGardeningForm" action="#"&gt;
         &lt;input type="hidden" name="action" value="startScriptGardening"/&gt;
         &lt;input type="submit" class="btn btn-primary" value="$services.localization.render('gardening.wiki.start')"/&gt;
