@@ -70,13 +70,26 @@
           #if ($queryScripts.size() == 0)
             $services.localization.render('gardening.wiki.noQueryScripts')
           #else
-            &lt;select multiple name="activeQueryScripts" id="activeQueryScripts"&gt;
+          &lt;div class="hidden" id="queryScriptsDescription"&gt;
             #foreach($queryScript in $queryScripts)
-              &lt;option value="$queryScript.getIdentifier()" #if($activeQueryScripts.contains($queryScript.getIdentifier())) selected #end&gt;
-                $queryScript.getName()
-              &lt;/option&gt;
+              &lt;div data-identifier="$queryScript.getIdentifier()"&gt;$queryScript.getDescription()&lt;/div&gt;
             #end
-            &lt;/select&gt;
+          &lt;/div&gt;
+          &lt;div class="row"&gt;
+            &lt;div class="col-md-6 col-xs-12"&gt;
+              &lt;select multiple name="activeQueryScripts" id="activeQueryScripts"&gt;
+              #foreach($queryScript in $queryScripts)
+                &lt;option value="$queryScript.getIdentifier()" #if($activeQueryScripts.contains($queryScript.getIdentifier())) selected #end&gt;
+                  $queryScript.getName()
+                &lt;/option&gt;
+              #end
+              &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;div class="col-md-6 col-xs-12" id="activeQueryScriptsDescription"&gt;
+              &lt;div class="descriptionContent"&gt;&lt;/div&gt;
+              &lt;div class="codeToggler"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
           #end
         &lt;/dd&gt;
         &lt;dt&gt;
@@ -89,11 +102,24 @@
           #if ($actionScripts.size() == 0)
             $services.localization.render('gardening.wiki.noActionScripts')
           #else
+          &lt;div class="hidden" id="actionScriptsDescription"&gt;
+            #foreach($actionScript in $actionScripts)
+              &lt;div data-identifier="$actionScript.getIdentifier()"&gt;$actionScript.getDescription()&lt;/div&gt;
+            #end
+          &lt;/div&gt;
+          &lt;div class="row"&gt;
+            &lt;div class="col-md-6 col-xs-12"&gt;
             &lt;select name="activeActionScript" id="activeActionScript"&gt;
+              &lt;option value=""&gt;$services.localization.render('gardening.wiki.scripts.action.noAction')&lt;/option&gt;
             #foreach($actionScript in $actionScripts)
               &lt;option value="$actionScript.getIdentifier()" #if($!activeActionScript == $actionScript.getIdentifier()) selected #end&gt;$actionScript.getName()&lt;/option&gt;
             #end
             &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;div class="col-md-6 col-xs-12" id="activeActionScriptDescription"&gt;
+              &lt;div class="descriptionContent"&gt;&lt;/div&gt;
+              &lt;div class="codeToggler"&gt;&lt;/div&gt;
+            &lt;/div&gt;
           #end
         &lt;/dd&gt;
       &lt;/dl&gt;
@@ -384,6 +410,131 @@
     </property>
     <property>
       <sectionOrder/>
+    </property>
+  </object>
+  <object>
+    <name>Gardening.Code.GardeningScriptAdministration</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>b3838c20-d570-4cf8-899a-8c0b8c0d01c2</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <contenttype>PureText</contenttype>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>require(['jquery'], function($) {
+  var defaultQueryScriptDescription = "&lt;i&gt;$services.localization.render('gardening.wiki.scripts.query.defaultDescription')&lt;/i&gt;";
+  var defaultActionScriptDescription = "&lt;i&gt;$services.localization.render('gardening.wiki.scripts.action.defaultDescription')&lt;/i&gt;";
+  
+  var queryScriptsDescription = $("#activeQueryScriptsDescription .descriptionContent");
+  var actionScriptDescription = $("#activeActionScriptDescription .descriptionContent");
+  
+  var queryScriptsSelect = $("#activeQueryScripts");
+  var actionScriptSelect = $("#activeActionScript");
+
+  $(function() {
+    // Set up the default descriptions in the administration sheet
+    queryScriptsDescription.html(defaultQueryScriptDescription);
+    actionScriptDescription.html(defaultActionScriptDescription);
+
+    queryScriptsSelect.on('change', function() {
+      if (this.value == "") {
+        queryScriptsDescription.html(defaultQueryScriptDescription);
+      } else {
+        queryScriptsDescription.text($("#queryScriptsDescription div[data-identifier='" + this.value + "']").text());
+      }
+    });
+
+    actionScriptSelect.on('change', function() {
+      if (this.value == "") {
+        actionScriptDescription.html(defaultActionScriptDescription);
+      } else {
+        actionScriptDescription.text($("#actionScriptsDescription div[data-identifier='" + this.value + "']").text());
+      }
+    });
+  });
+});</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
     </property>
   </object>
 </xwikidoc>

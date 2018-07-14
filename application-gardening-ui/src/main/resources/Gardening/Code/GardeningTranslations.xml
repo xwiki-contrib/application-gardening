@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -45,6 +44,10 @@ gardening.wiki.start=Start mowing!
 
 gardening.wiki.noQueryScripts=No query script found.
 gardening.wiki.noActionScripts=No action script found.
+
+gardening.wiki.scripts.query.defaultDescription=Select a query script to see its description
+gardening.wiki.scripts.action.defaultDescription=Select an action script to see its description
+gardening.wiki.scripts.action.noAction=---
 
 gardening.job.success=Success!
 gardening.job.error=An error happened, see the logs for more information.
