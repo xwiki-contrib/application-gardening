@@ -41,9 +41,20 @@
   <hidden>true</hidden>
   <content>gardening.wiki.selectScripts=Sélectionnez les scripts de jardinage actifs
 gardening.wiki.startJob=Démarrer le jardinage
+gardening.wiki.startTest=Tester le processus de jardinage
 gardening.wiki.start=Jardiner !
+
+gardening.wiki.noQueryScripts=Aucun script de requête trouvé.
+gardening.wiki.noActionScripts=Aucun script d'action trouvé.
+
+gardening.wiki.scripts.query.defaultDescription=Sélectionnez un script de requête pour voir sa description
+gardening.wiki.scripts.action.defaultDescription=Sélectionnez un script d'action pour voir sa description
+gardening.wiki.scripts.action.noAction=---
+
 gardening.job.success=Terminé !
 gardening.job.error=Une erreur est survenue, consultez les journaux pour plus d'information.
+
+# Translation keys for the GardeningScriptConfigurationClass
 Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts=Scripts de requête actifs
 Gardening.Code.GardeningScriptConfigurationClass_activeActionScript=Script d'action actif</content>
 </xwikidoc>
