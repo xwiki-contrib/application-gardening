@@ -39,6 +39,23 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content></content>
+  <content>gardening.wiki.selectScripts=Выберите активные gardening-скрипты
+gardening.wiki.startJob=Запустить gardening
+gardening.wiki.startTest=Протестировать процесс gardening'а
+gardening.wiki.start=Начать покос!
+
+gardening.wiki.noQueryScripts=Не найден скрипт запроса.
+gardening.wiki.noActionScripts=Не найден скрипт действия.
+
+gardening.wiki.scripts.query.defaultDescription=Выберите скрипт запроса, чтобы увидеть его описание
+gardening.wiki.scripts.action.defaultDescription=Выберите скрипт действия, чтобы увидеть его описание
+gardening.wiki.scripts.action.noAction=---
+
+gardening.job.success=Выполнено!
+gardening.job.error=Произошла ошибка, смотрите логи для получения дополнительной информации.
+
+# Translation keys for the GardeningScriptConfigurationClass
+Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts=Активные скрипты запросов
+Gardening.Code.GardeningScriptConfigurationClass_activeActionScript=Активные скрипты действий</content>
   
 </xwikidoc>
