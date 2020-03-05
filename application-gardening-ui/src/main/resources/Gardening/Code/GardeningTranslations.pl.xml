@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.3" reference="Gardening.Code.GardeningTranslations" locale="pl">
+  <web>Gardening.Code</web>
+  <name>GardeningTranslations</name>
+  <language>pl</language>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>1</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1525552355000</creationDate>
+  <parent>Gardening.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1525554234000</date>
+  <contentUpdateDate>1525554183000</contentUpdateDate>
+  <version>1.1</version>
+  <title>GardeningTranslations</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>plain/1.0</syntaxId>
+  <hidden>true</hidden>
+  <content>### Missing: gardening.wiki.selectScripts=Select active gardening scripts
+### Missing: gardening.wiki.startJob=Start gardening
+### Missing: gardening.wiki.startTest=Test the gardening process
+### Missing: gardening.wiki.start=Start mowing!
+
+gardening.wiki.noQueryScripts=Nie znaleziono skryptu zapytania.
+gardening.wiki.noActionScripts=Nie znaleziono skryptu akcji.
+
+gardening.wiki.scripts.query.defaultDescription=Wybierz skrypt zapytania, aby zobaczyć jego opis
+gardening.wiki.scripts.action.defaultDescription=Wybierz skrypt akcji, aby zobaczyć jego opis
+gardening.wiki.scripts.action.noAction=---
+
+gardening.job.success=Sukces!
+gardening.job.error=Wystąpił błąd, więcej informacji można znaleźć w logach.
+
+# Translation keys for the GardeningScriptConfigurationClass
+Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts=Aktywuj skrypty zapytania
+Gardening.Code.GardeningScriptConfigurationClass_activeActionScript=Aktywny skrypt akcji</content>
+  
+</xwikidoc>
