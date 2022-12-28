@@ -25,10 +25,10 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>application-gardening-wiki</artifactId>
-    <version>1.3.3-SNAPSHOT</version>
+    <version>1.3.3</version>
   </parent>
   <artifactId>application-gardening-wiki-api</artifactId>
-  <version>1.3.3-SNAPSHOT</version>
+  <version>1.3.3</version>
   <name>Gardening Application - Wiki - API</name>
   <packaging>jar</packaging>
   <description>API endpoints for a wiki-oriented implementation of the Gardening Application</description>
