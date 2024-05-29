@@ -25,10 +25,10 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>application-gardening</artifactId>
-    <version>1.3.5-SNAPSHOT</version>
+    <version>1.3.5</version>
   </parent>
   <artifactId>application-gardening-scripts</artifactId>
-  <version>1.3.5-SNAPSHOT</version>
+  <version>1.3.5</version>
   <name>Gardening Application - Scripts</name>
   <packaging>jar</packaging>
   <description>API endpoints for using scripts in the Gardening Application</description>
