@@ -25,10 +25,10 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>application-gardening</artifactId>
-    <version>1.3.5</version>
+    <version>1.3.6-SNAPSHOT</version>
   </parent>
   <artifactId>application-gardening-script</artifactId>
-  <version>1.3.5</version>
+  <version>1.3.6-SNAPSHOT</version>
   <name>Gardening Application - Script Service</name>
   <packaging>jar</packaging>
   <description>Generic script service for the Gardening Application</description>
