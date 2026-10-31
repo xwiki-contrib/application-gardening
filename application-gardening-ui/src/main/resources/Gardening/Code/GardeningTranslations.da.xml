@@ -39,20 +39,20 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content>### Missing: gardening.wiki.selectScripts=
-### Missing: gardening.wiki.startJob=
-### Missing: gardening.wiki.startTest=
-### Missing: gardening.wiki.start=
-### Missing: gardening.wiki.noQueryScripts=
-### Missing: gardening.wiki.noActionScripts=
-### Missing: gardening.wiki.scripts.query.defaultDescription=
-### Missing: gardening.wiki.scripts.action.defaultDescription=
-### Missing: gardening.wiki.scripts.action.noAction=
-### Missing: gardening.job.success=
-### Missing: gardening.job.error=
+  <content>gardening.wiki.selectScripts=Vælg aktive oprydningsscripts
+gardening.wiki.startJob=Start oprydning
+gardening.wiki.startTest=Afprøv oprydningen
+gardening.wiki.start=Gå i gang!
+gardening.wiki.noQueryScripts=Der blev ikke fundet noget forespørgselsscript.
+gardening.wiki.noActionScripts=Der blev ikke fundet noget handlingsscript.
+gardening.wiki.scripts.query.defaultDescription=Vælg et forespørgselsscript for at se dets beskrivelse
+gardening.wiki.scripts.action.defaultDescription=Vælg et handlingsscript for at se dets beskrivelse
+gardening.wiki.scripts.action.noAction=---
+gardening.job.success=Udført!
+gardening.job.error=Der opstod en fejl. Se loggene for flere oplysninger.
 
 # Translation keys for the GardeningScriptConfigurationClass
-### Missing: Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts=
-### Missing: Gardening.Code.GardeningScriptConfigurationClass_activeActionScript=
+Gardening.Code.GardeningScriptConfigurationClass_activeQueryScripts=Aktive forespørgselsscripts
+Gardening.Code.GardeningScriptConfigurationClass_activeActionScript=Aktivt handlingsscript
 </content>
 </xwikidoc>
